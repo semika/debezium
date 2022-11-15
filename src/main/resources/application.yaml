@@ -1,0 +1,34 @@
+spring:
+  application:
+    name: Mosaic Order CDC
+  datasource:
+    url: jdbc:mysql://localhost:3306/test
+    password: abc123
+    driverClassName: com.mysql.cj.jdbc.Driver
+#spring.jpa.show-sql: true
+  jpa:
+    hibernate:
+      ddl-auto: update
+server:
+  port: 9001
+cdc:
+  engine:
+    name: engine
+    connectorClass: io.debezium.connector.mysql.MySqlConnector
+    offsetStorage: org.apache.kafka.connect.storage.FileOffsetBackingStore # store offset of last read. Connector records offset periodically.
+    offsetStorageFileName: 'C:\\Users\\SemikaSiriwardana\\cdc\\offsets.dat' # store offset of last read.
+    offsetFlushInterval: 60000
+  connector:
+    hostname: localhost
+    port: 3306
+    user: root
+    password: abc123
+    serverId: 85744 #should be unique
+    serverName: 'customer-mysql-db-server' # The connector includes this logical name
+                                           # within the topic field of every source record it produces,
+                                           # enabling your application to discern the origin of those records
+    #history: io.debezium.relational.history.FileDatabaseHistory
+    topicPrefix: my-app-connector
+    schemaHistoryInternal: io.debezium.storage.file.history.FileSchemaHistory # Schema history changes
+    schemaHistoryInternalFileName: 'C:\\Users\\SemikaSiriwardana\\cdc\\schemahistory.dat' # Schema history changes
+

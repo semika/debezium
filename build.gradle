@@ -1,0 +1,40 @@
+buildscript {
+	ext {
+		debeziumVersion  = "2.0.0.Final"
+		//debeziumVersion  = "2.0"
+		lombokVersion = "1.18.22"
+
+	}
+}
+plugins {
+	id 'org.springframework.boot' version '2.7.5'
+	id 'io.spring.dependency-management' version '1.0.15.RELEASE'
+	id 'java'
+}
+
+group = 'com.aeturnum.mosaic.cdc'
+version = '0.0.1-SNAPSHOT'
+sourceCompatibility = '11'
+
+repositories {
+	mavenCentral()
+}
+
+dependencies {
+
+	annotationProcessor "org.springframework.boot:spring-boot-configuration-processor"
+
+	implementation 'org.springframework.boot:spring-boot-starter-web'
+	testImplementation 'org.springframework.boot:spring-boot-starter-test'
+	implementation 'org.springframework.boot:spring-boot-starter-web:2.7.5'
+
+	implementation "io.debezium:debezium-api:${debeziumVersion}"
+	implementation "io.debezium:debezium-embedded:${debeziumVersion}"
+	implementation "io.debezium:debezium-connector-mysql:${debeziumVersion}"
+	compileOnly "org.projectlombok:lombok:${lombokVersion}"
+	annotationProcessor "org.projectlombok:lombok:${lombokVersion}"
+}
+
+tasks.named('test') {
+	useJUnitPlatform()
+}
